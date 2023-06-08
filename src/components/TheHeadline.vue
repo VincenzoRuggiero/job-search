@@ -22,18 +22,20 @@ export default {
     actionClasses() {
       // Applies the right class color based on data
       return {
-        build: this.action === 'Build',
+        /* build: this.action === 'Build',
         create: this.action === 'Create',
         design: this.action === 'Design',
-        code: this.action === 'Code'
+        code: this.action === 'Code' */
+        [this.action.toLowerCase()]: true // Refactor to get the same result
       }
     }
   },
   created() {
+    // When component is loaded the method starts working
     this.changeTitle()
   },
   beforeUnmount() {
-    // Cancels action loop
+    // When leaving the page, setInterval is stopped
     clearInterval(this.interval)
   },
   methods: {
@@ -41,8 +43,8 @@ export default {
       // Loops through actions everye 3 secs and updates data
       this.interval = setInterval(() => {
         const actions = ['Build', 'Create', 'Design', 'Code']
-        const currentActionIndex = actions.indexOf(this.action)
-        const nextActionIndex = (currentActionIndex + 1) % 4
+        const currentActionIndex = actions.indexOf(this.action) // Get the index of the matching action word
+        const nextActionIndex = (currentActionIndex + 1) % 4 // Adds 1 to index each time and restarts
         const nextAction = actions[nextActionIndex]
         this.action = nextAction
       }, 3000)
