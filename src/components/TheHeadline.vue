@@ -1,6 +1,10 @@
 <template>
   <section>
-    <h1>{{ action }} for everyone</h1>
+    <h1>
+      <span :class="actionClasses">{{ action }}</span
+      ><br />
+      for everyone
+    </h1>
     <h2>Find your next job at Jobbing</h2>
   </section>
 </template>
@@ -14,14 +18,27 @@ export default {
       interval: null
     }
   },
+  computed: {
+    actionClasses() {
+      // Applies the right class color based on data
+      return {
+        build: this.action === 'Build',
+        create: this.action === 'Create',
+        design: this.action === 'Design',
+        code: this.action === 'Code'
+      }
+    }
+  },
   created() {
     this.changeTitle()
   },
   beforeUnmount() {
+    // Cancels action loop
     clearInterval(this.interval)
   },
   methods: {
     changeTitle() {
+      // Loops through actions everye 3 secs and updates data
       this.interval = setInterval(() => {
         const actions = ['Build', 'Create', 'Design', 'Code']
         const currentActionIndex = actions.indexOf(this.action)
@@ -33,3 +50,21 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.build {
+  color: #1a73e8;
+}
+
+.create {
+  color: #34a853;
+}
+
+.design {
+  color: #f9ab00;
+}
+
+.code {
+  color: #d93025;
+}
+</style>
