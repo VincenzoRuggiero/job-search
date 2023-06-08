@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import nextElementInList from '@/utils/newElementInList.js'
+
 export default {
   name: 'TheHeadline',
   data() {
@@ -43,10 +45,7 @@ export default {
       // Loops through actions everye 3 secs and updates data
       this.interval = setInterval(() => {
         const actions = ['Build', 'Create', 'Design', 'Code']
-        const currentActionIndex = actions.indexOf(this.action) // Get the index of the matching action word
-        const nextActionIndex = (currentActionIndex + 1) % 4 // Adds 1 to index each time and restarts
-        const nextAction = actions[nextActionIndex]
-        this.action = nextAction
+        this.action = nextElementInList(actions, this.action)
       }, 3000)
     }
   }
